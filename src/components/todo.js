@@ -1,7 +1,9 @@
 import React from "react";
 import moment from "moment";
+import { Button, Modal, List } from "antd";
+import { CheckCircleOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
-const Todo = ({ text, todo, todos, setTodos }) => {
+const Todo = ({ text, todo, todos, setTodos, date }) => {
     const now = new Date();
     const dateString = moment(now).format("DD-MM-YYYY");
 
@@ -9,10 +11,23 @@ const Todo = ({ text, todo, todos, setTodos }) => {
         setTodos(todos.filter((item) => item.id !== todo.id));
     };
 
-    // const handleClear = () => {
-    //     setTodos([]);
-    //     localStorage.removeItem("localTasks");
-    // }
+    const { confirm } = Modal;
+
+    const showDeleteConfirm = id => {
+        confirm({
+            title: 'Are you sure delete this todo?',
+            icon: <ExclamationCircleOutlined />,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                hanldeDelete(id);
+            },
+            onCancel() { },
+        });
+
+    }
+
 
     const handleComplete = () => {
         setTodos(
@@ -34,13 +49,21 @@ const Todo = ({ text, todo, todos, setTodos }) => {
                     {text}
                 </li>
                 <li className="date">{dateString}</li>
-                <button className="complete-btn" onClick={handleComplete}>
-                    <i className="fas fa-check" />
-                </button>
-                <button className="trash-btn" onClick={hanldeDelete}>
-                    <i className="fas fa-trash" />
-                </button>
+                <Button className="complete-btn" onClick={handleComplete}>
+                    <CheckCircleOutlined />
+                </Button>
+                <Button className="trash-btn" onClick={showDeleteConfirm}>
+                    <DeleteOutlined />
+                </Button>
             </div>
+
+            {/* <List
+                dataSource={todos}
+                renderItem={
+                    item => (
+                        <List.Item>{item}</List.Item>
+                    )}
+            /> */}
         </>
     );
 };

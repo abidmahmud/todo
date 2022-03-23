@@ -9,6 +9,7 @@ function App() {
     const [todos, setTodos] = useState([]);
     const [status, setStatus] = useState('all');
     const [filteredTodos, setFilteredTodos] = useState([]);
+    const [date, setDate] = useState([]);
 
     const handleFilter = () => {
         switch (status) {
@@ -58,8 +59,11 @@ function App() {
                 setTodos={setTodos}
                 status={status}
                 setStatus={setStatus}
+                setDate={setDate}
+                date={date}
             />
             <TodoList
+                date={date}
                 todos={todos}
                 setTodos={setTodos}
                 filteredTodos={filteredTodos}

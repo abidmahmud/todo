@@ -1,7 +1,7 @@
 import React from 'react';
 import Todo from './todo';
 
-const TodoList = ({ todos, setTodos, filteredTodos }) => {
+const TodoList = ({ todos, setTodos, filteredTodos, date }) => {
 
     return (
         <>
@@ -14,6 +14,7 @@ const TodoList = ({ todos, setTodos, filteredTodos }) => {
                             todo={todo}
                             text={todo.text}
                             key={todo.id}
+                            date={date}
                         />
                     ))}
                 </ul>
