@@ -1,6 +1,6 @@
 import React from "react";
 import moment from "moment";
-import { Button, Modal, List } from "antd";
+import { Button, Modal, List, Row } from "antd";
 import { CheckCircleOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 const Todo = ({ text, todo, todos, setTodos, date }) => {
@@ -42,20 +42,21 @@ const Todo = ({ text, todo, todos, setTodos, date }) => {
 
     return (
         <>
-            <div className="todo">
-                <li
+
+            <Row className="todo">
+                <List
                     className={`todo-item ${todo.completed ? "completed" : ""}`}
                 >
                     {text}
-                </li>
-                <li className="date">{dateString}</li>
-                <Button className="complete-btn" onClick={handleComplete}>
+                </List>
+                <List className="date">{dateString}</List>
+                <Button gutter={10} className="complete-btn" onClick={handleComplete}>
                     <CheckCircleOutlined />
                 </Button>
                 <Button className="trash-btn" onClick={showDeleteConfirm}>
                     <DeleteOutlined />
                 </Button>
-            </div>
+            </Row>
 
             {/* <List
                 dataSource={todos}

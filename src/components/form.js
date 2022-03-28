@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DatePicker, Space, Menu, Dropdown, Button, Input, Row, List } from 'antd';
+import { DatePicker, Space, Menu, Dropdown, Button, Input, Row, List, Col } from 'antd';
 import 'antd/dist/antd.css';
 import { PlusSquareOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { DownOutlined } from '@ant-design/icons';
@@ -23,7 +23,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
         e.preventDefault();
         setTodos([
             ...todos,
-            { text: inputText, completed: false, date: moment(), id: Math.random() * 1000 },
+            { text: inputText, completed: false, startTime: moment(), id: Math.random() * 1000 },
         ]);
         setInputText("");
         setDate(null);
@@ -56,6 +56,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
             <form>
                 <Input
                     type="text"
+                    size="large"
                     style={{ width: "20rem", padding: "1rem", paddingLeft: "1rem" }}
                     placeholder="Write your todo..."
                     value={inputText}
@@ -70,8 +71,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                     />
                 </Space> */}
 
-                <div>
-
+                <Row gutter={1}>
                     <RangePicker
                         showTime={{ format: 'HH:mm' }}
                         format="YYYY-MM-DD HH:mm"
@@ -80,28 +80,28 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                         onOk={onOk}
                         style={{ width: "20rem" }}
                     />
-                </div>
 
-                <Button
-                    type="submit"
-                    className="todo-button"
-                    onClick={handleSubmit}
-                >
-                    <PlusSquareOutlined />
-                </Button>
-                <div className="select" onChange={hanldeStatus}>
+                    <Button
+                        type="danger"
+                        className="todo-button"
+                        onClick={handleSubmit}
+                    >
+                        <PlusSquareOutlined />
+                    </Button>
+                </Row>
+                <Col className="select" onChange={hanldeStatus}>
                     <select className="filter-todo" name="todos">
                         <option value="all">All</option>
                         <option value="completed">Completed</option>
                         <option value="uncompleted">Uncompleted</option>
                     </select>
-                </div>
+                </Col>
                 {/* <Dropdown overlay={menu}>
                     <a className="ant-dropdown-link" onChange={hanldeStatus} onClick={hanldeStatus}>
                         Hover me <DownOutlined />
                     </a>
                 </Dropdown> */}
-                <div className="badge">
+                <Col className="badge">
                     You have
                     {!todos.length
                         ? " no todos"
@@ -110,7 +110,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                             : todos.length > 1
                                 ? ` ${todos.length} todos`
                                 : null}
-                </div>
+                </Col>
             </form>
         </>
     );

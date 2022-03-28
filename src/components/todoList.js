@@ -1,3 +1,4 @@
+import { List, Row } from 'antd';
 import React from 'react';
 import Todo from './todo';
 
@@ -5,8 +6,8 @@ const TodoList = ({ todos, setTodos, filteredTodos, date }) => {
 
     return (
         <>
-            <div className="todo-container">
-                <ul className="todo-list">
+            <Row className="todo-container">
+                <List className="todo-list">
                     {filteredTodos.map(todo => (
                         <Todo
                             todos={todos}
@@ -17,8 +18,8 @@ const TodoList = ({ todos, setTodos, filteredTodos, date }) => {
                             date={date}
                         />
                     ))}
-                </ul>
-            </div>
+                </List>
+            </Row>
         </>
     )
 };

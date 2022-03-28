@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url("https://i.pinimg.com/474x/d5/5e/16/d55e16e728d402b716ab3af8fa49bb63.jpg");
+    background: white(158, 212, 11);
     color: white;
     font-family: "Poppins", sans-serif;
     min-height: 100vh;
@@ -28,9 +28,11 @@ form button {
     padding: 00px;
     font-size: 2rem;
     margin-right: 0.5rem;
+    padding-right: 1 rem;
     border: none;
     /* background: white; */
     color: black;
+    background-color: cadetblue;
 }
 
 .badge {
@@ -61,6 +63,7 @@ form button:hover {
 .todo-list {
     min-width: 30%;
     list-style: none;
+    background-color: cornsilk;
 }
 
 .todo {
