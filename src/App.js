@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Form from './components/form';
 import TodoList from "./components/todoList";
 import './App.css';
+import { Layout } from 'antd';
+import Weather from './components/weatherApi';
 
 function App() {
 
@@ -10,6 +12,8 @@ function App() {
     const [status, setStatus] = useState('all');
     const [filteredTodos, setFilteredTodos] = useState([]);
     const [date, setDate] = useState([]);
+
+    const { Header, Footer, Sider, Content } = Layout;
 
     const handleFilter = () => {
         switch (status) {
@@ -48,27 +52,33 @@ function App() {
     }, [todos, status]);
 
     return (
-        <div className="App">
-            <header>
-                <h1>Todo's</h1>
-            </header>
-            <Form
-                inputText={inputText}
-                setInputText={setInputText}
-                todos={todos}
-                setTodos={setTodos}
-                status={status}
-                setStatus={setStatus}
-                setDate={setDate}
-                date={date}
-            />
-            <TodoList
-                date={date}
-                todos={todos}
-                setTodos={setTodos}
-                filteredTodos={filteredTodos}
-            />
-        </div>
+        <>
+            <div className="App">
+                <header>
+                    <h1>Todo's</h1>
+                </header>
+                <Form
+                    inputText={inputText}
+                    setInputText={setInputText}
+                    todos={todos}
+                    setTodos={setTodos}
+                    status={status}
+                    setStatus={setStatus}
+                    setDate={setDate}
+                    date={date}
+                />
+                <TodoList
+                    date={date}
+                    todos={todos}
+                    setTodos={setTodos}
+                    filteredTodos={filteredTodos}
+                />
+            </div>
+
+            <Layout>
+                <Footer><Weather /></Footer>
+            </Layout>
+        </>
     );
 }
 

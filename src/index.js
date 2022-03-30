@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import AmChart from './amCharts';
-
+import { BrowserRouter } from 'react-router-dom';
+import RoutesAll from './routes';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
+    <BrowserRouter>
+        <React.StrictMode>
+            <RoutesAll />
+        </React.StrictMode>
+    </BrowserRouter>,
     document.getElementById('root')
 );
 

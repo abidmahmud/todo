@@ -43,14 +43,6 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
         console.log('onOk: ', e);
     }
 
-    // const menu = (
-    //     <Menu>
-    //         <Menu.Item value="all"> All  </Menu.Item>
-    //         <Menu.Item value="complete"> Completed  </Menu.Item>
-    //         <Menu.Item value="uncomplete"> Uncompleted  </Menu.Item>
-    //     </Menu>
-    // );
-
     return (
         <>
             <form>
@@ -63,24 +55,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                     onChange={handleText}
                 />
 
-                {/* <Space direction="vertical" size={12}>
-                    <RangePicker
-                        showTime
-                        value={date}
-                        onChange={e => setDate(e)}
-                    />
-                </Space> */}
-
                 <Row gutter={1}>
-                    <RangePicker
-                        showTime={{ format: 'HH:mm' }}
-                        format="YYYY-MM-DD HH:mm"
-                        placeholder={['Start Time', 'End Time']}
-                        onChange={onChange}
-                        onOk={onOk}
-                        style={{ width: "20rem" }}
-                    />
-
                     <Button
                         type="danger"
                         className="todo-button"
@@ -96,11 +71,6 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                         <option value="uncompleted">Uncompleted</option>
                     </select>
                 </Col>
-                {/* <Dropdown overlay={menu}>
-                    <a className="ant-dropdown-link" onChange={hanldeStatus} onClick={hanldeStatus}>
-                        Hover me <DownOutlined />
-                    </a>
-                </Dropdown> */}
                 <Col className="badge">
                     You have
                     {!todos.length
