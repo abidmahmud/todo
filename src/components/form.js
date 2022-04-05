@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DatePicker, Space, Menu, Dropdown, Button, Input, Row, List, Col } from 'antd';
+import { DatePicker, Space, Menu, Dropdown, Button, Input, Row, List, Col, Typography } from 'antd';
 import 'antd/dist/antd.css';
 import { PlusSquareOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { DownOutlined } from '@ant-design/icons';
@@ -43,6 +43,20 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
         console.log('onOk: ', e);
     }
 
+    const menu = (
+        <Menu>
+            <Menu.Item key="All">
+                All
+            </Menu.Item>
+            <Menu.Item key="Completed">
+                Completed
+            </Menu.Item>
+            <Menu.Item key="Uncompleted" >
+                Uncompleted
+            </Menu.Item>
+        </Menu>
+    );
+
     return (
         <>
             <form>
@@ -61,16 +75,23 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                         className="todo-button"
                         onClick={handleSubmit}
                     >
-                        <PlusSquareOutlined />
+                        Add Todo
+                        {/* <PlusSquareOutlined /> */}
                     </Button>
                 </Row>
-                <Col className="select" onChange={hanldeStatus}>
+                {/* <Col className="select" onChange={hanldeStatus}>
                     <select className="filter-todo" name="todos">
                         <option value="all">All</option>
                         <option value="completed">Completed</option>
                         <option value="uncompleted">Uncompleted</option>
                     </select>
-                </Col>
+                </Col> */}
+                <Dropdown overlay={menu}>
+                    <Typography className="ant-dropdown-link" onClick={e => e.preventDefault()} onChange={hanldeStatus}>
+                        Hover me <DownOutlined />
+                    </Typography>
+                </Dropdown>
+
                 <Col className="badge">
                     You have
                     {!todos.length

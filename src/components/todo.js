@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import moment from "moment";
-import { Button, Modal, List, Row, Layout, Space, DatePicker } from "antd";
+import { Button, Modal, List, Row, Layout, Space, DatePicker, Typography, Checkbox, Switch } from "antd";
 import { CheckCircleOutlined, DeleteOutlined, ExclamationCircleOutlined, DeleteTwoTone, EditOutlined } from '@ant-design/icons';
 
 const Todo = ({ text, todo, todos, setTodos, date }) => {
@@ -73,26 +73,67 @@ const Todo = ({ text, todo, todos, setTodos, date }) => {
         <>
 
             <Row className="todo">
-                <List
-                    className={`todo-item ${todo.completed ? "completed" : ""}`}
-                >
-                    {text}
-                </List>
+                <Switch checked={todo.completed} onChange={(() => handleComplete(todo.id))} />
+                <Typography.Text className={` ${todo.completed ? "completed" : ""}`} > {text}</Typography.Text>
+
                 <List className="date">{dateString}</List>
 
-                <Button gutter={10} type="success" className="complete-btn" onClick={handleComplete}>
-                    <CheckCircleOutlined />
-                </Button>
-                <Button gutter={10} type="primary" danger ghost onClick={showNote}>
-                    <EditOutlined />
-                </Button>
                 <Button type="danger" onClick={showDeleteConfirm}>
                     <DeleteOutlined />
                 </Button>
             </Row>
+            {/* <Row>
+                <List
+                    dataSource={todos}
+                    renderItem={
+                        item => (
+                            item.completed ?
+                                <List.Item>
+                                    <Row>
+                                        <Space>
+                                            <Switch checked={item.completed} onChange={(() => handleComplete(item.id))} />
+                                            <Typography.Text className={` ${item.completed ? "completed" : ""}`} > {text}</Typography.Text>
+                                            <Typography.Text className="date">{dateString}</Typography.Text>
 
+                                            <Button type="danger" onClick={showDeleteConfirm}>
+                                                <DeleteOutlined />
+                                            </Button>
+                                        </Space>
+                                    </Row>
+                                </List.Item> :
+                                <List.Item>
+                                    <Switch checked={item.completed} onChange={(() => handleComplete(item.id))} />
+                                    <Typography.Text  > {text}</Typography.Text>
+                                    <Typography.Text className="date">{dateString}</Typography.Text>
+                                    <Button type="danger" onClick={showDeleteConfirm}>
+                                        <DeleteOutlined />
+                                    </Button>
+                                </List.Item>
+                        )
+                    }
+                />
+            </Row>
+            <Row>
 
-
+            </Row> */}
+            {/* <List
+                dataSource={todos}
+                renderItem={
+                    item => (
+                        item.completed ?
+                            <List.Item>
+                                <Typography.Text className={`todo-item ${item.completed ? "completed" : ""}`} > {text}</Typography.Text>
+                                <Typography.Text className="date">{dateString}</Typography.Text>
+                                <Button gutter={10} type="success" className="complete-btn" onClick={handleComplete}>
+                                    <CheckCircleOutlined />
+                                </Button>
+                                <Button type="danger" onClick={showDeleteConfirm}>
+                                    <DeleteOutlined />
+                                </Button>
+                            </List.Item> : null
+                    )
+                }
+            /> */}
         </>
     );
 };

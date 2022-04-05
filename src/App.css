@@ -63,7 +63,7 @@ form button:hover {
 .todo-list {
     min-width: 30%;
     list-style: none;
-    background-color: cornsilk;
+    background-color: white;
 }
 
 .todo {

@@ -4,6 +4,7 @@ import TodoList from "./components/todoList";
 import './App.css';
 import { Layout } from 'antd';
 import Weather from './components/weatherApi';
+import DarkMode from './components/DarkMode/darkMode';
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
     const [status, setStatus] = useState('all');
     const [filteredTodos, setFilteredTodos] = useState([]);
     const [date, setDate] = useState([]);
+    const [theme, setTheme] = useState("light");
 
     const { Header, Footer, Sider, Content } = Layout;
 
@@ -54,8 +56,10 @@ function App() {
     return (
         <>
             <div className="App">
-                <header>
+                <header justify="auto">
+                    <DarkMode theme={theme} setTheme={setTheme} />
                     <h1>Todo's</h1>
+                    {/* <Weather /> */}
                 </header>
                 <Form
                     inputText={inputText}
@@ -73,11 +77,10 @@ function App() {
                     setTodos={setTodos}
                     filteredTodos={filteredTodos}
                 />
+
+
             </div>
 
-            <Layout>
-                <Footer><Weather /></Footer>
-            </Layout>
         </>
     );
 }
