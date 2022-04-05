@@ -63,7 +63,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                 <Input
                     type="text"
                     size="large"
-                    style={{ width: "20rem", padding: "1rem", paddingLeft: "1rem" }}
+                    style={{ width: "20rem", padding: "1rem", paddingLeft: "1rem", marginRight: "1rem" }}
                     placeholder="Write your todo..."
                     value={inputText}
                     onChange={handleText}
@@ -71,6 +71,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
 
                 <Row gutter={1}>
                     <Button
+                        style={{ marginRight: "1rem" }}
                         type="danger"
                         className="todo-button"
                         onClick={handleSubmit}
@@ -86,10 +87,10 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                         <option value="uncompleted">Uncompleted</option>
                     </select>
                 </Col> */}
-                <Dropdown overlay={menu}>
-                    <Typography className="ant-dropdown-link" onClick={e => e.preventDefault()} onChange={hanldeStatus}>
+                <Dropdown overlay={menu} >
+                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()} onChange={hanldeStatus} style={{ marginRight: "1rem" }}>
                         Hover me <DownOutlined />
-                    </Typography>
+                    </a>
                 </Dropdown>
 
                 <Col className="badge">
