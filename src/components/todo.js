@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { Button, Modal, List, Row, Layout, Space, DatePicker, Typography, Checkbox, Switch } from "antd";
 import { CheckCircleOutlined, DeleteOutlined, ExclamationCircleOutlined, DeleteTwoTone, EditOutlined } from '@ant-design/icons';
@@ -69,11 +69,13 @@ const Todo = ({ text, todo, todos, setTodos, date }) => {
         );
     };
 
+
+
     return (
         <>
 
             <Row className="todo">
-                <Switch checked={todo.completed} onChange={(() => handleComplete(todo.id))} />
+                <Switch span={15} checked={todo.completed} onChange={(() => handleComplete(todo.id))} />
                 <Typography.Text className={` ${todo.completed ? "completed" : ""}`} > {text}</Typography.Text>
 
                 <List className="date">{dateString}</List>

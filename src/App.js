@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Form from './components/form';
 import TodoList from "./components/todoList";
 import './App.css';
-import { Layout } from 'antd';
+import { Layout, Col, Row, Typography } from 'antd';
 import Weather from './components/weatherApi';
 import DarkMode from './components/DarkMode/darkMode';
 
@@ -56,11 +56,16 @@ function App() {
     return (
         <>
             <div className="App">
-                <header justify="auto">
-                    <DarkMode theme={theme} setTheme={setTheme} />
-                    <h1>Todo's</h1>
-                    {/* <Weather /> */}
-                </header>
+                <Row style={{ justify: "center" }} >
+                    {/* <DarkMode theme={theme} setTheme={setTheme} /> */}
+
+                    <Col span={18} >
+                        <Typography.Title >Todo's</Typography.Title>
+                    </Col>
+                    <Col >
+                        <Weather />
+                    </Col>
+                </Row>
                 <Form
                     inputText={inputText}
                     setInputText={setInputText}

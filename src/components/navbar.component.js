@@ -1,28 +1,48 @@
 import { Link } from "react-router-dom";
-import { Menu, Switch, Divider } from 'antd';
+import { Menu, Switch, Divider, Typography, Button } from 'antd';
 import {
-    MailOutlined,
-    CalendarOutlined,
+    MailOutlined, CalendarOutlined,
     AppstoreOutlined,
     SettingOutlined,
     LinkOutlined,
     CarryOutOutlined,
     PieChartOutlined
 } from '@ant-design/icons';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTheme } from "./DarkMode/use-theme";
 
 const { SubMenu } = Menu;
 
 function NavBar() {
 
+    useEffect(() => {
+        const time = new Date().getHours()
+        const day = time > 6 && time < 18
+        if (day) {
+            import('antd/dist/antd.css')
+        } else {
+            import('antd/dist/antd.dark.css')
+        }
+    }, [])
+
+    const [darkMode, setDarkMode] = useState(false);
+
+    const toggle = () => {
+        if (!darkMode) {
+            import('antd/dist/antd.dark.css')
+        }
+        else {
+            import('antd/dist/antd.css')
+        }
+    }
+
     // const handleClick = e => {
     //     console.log('click ', e);
     // };
-    const [theme, setTheme] = useState('light');
 
-    const changeTheme = value => {
-        setTheme(value ? 'dark' : 'light');
-    };
+    // const changeTheme = value => {
+    //     setTheme(value ? 'dark' : 'light');
+    // };
 
     return (
         <>
@@ -41,6 +61,9 @@ function NavBar() {
                     <Link to="/src/components/charts/chart.js">Charts</Link>
                 </Menu.Item>
 
+                <Menu.Item key='id3' style={{ justifyContent: "end" }}>
+                    <Button onClick={toggle}>Toggle</Button>
+                </Menu.Item>
             </Menu>
         </>
 

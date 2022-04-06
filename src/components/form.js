@@ -72,7 +72,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                 <Row gutter={1}>
                     <Button
                         style={{ marginRight: "1rem" }}
-                        type="danger"
+                        type="primary"
                         className="todo-button"
                         onClick={handleSubmit}
                     >

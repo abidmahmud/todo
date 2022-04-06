@@ -1,78 +1,60 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Col, Row, Typography } from 'antd';
 import axios from 'axios';
-import { Col, Input, Typography, Row } from 'antd';
-import { Title } from '@material-ui/icons';
+import { HomeFilled } from '@ant-design/icons';
 
-function Weather() {
-    const [data, setData] = useState({});
-    const [location, setLocation] = useState('');
+const Weather = () => {
+    const [weather, setWeather] = useState('');
 
-    const { Text, Paragraph, Title } = Typography;
+    useEffect(() => {
+        getWeather(function (location) {
+            let res = axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.long}&appid=2c6d3ef7190833eab7714c3bc203d21f&units=metric&city`) //jbondy@nwhsii.com
+            res
+                .then(response => {
+                    setWeather(response.data);
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        })
+    }, []);
 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=895284fb2d2c50a520ea537456963d9c`
 
-    const searchLocation = (event) => {
-        if (event.key === 'Enter') {
-            axios.get(url).then((response) => {
-                setData(response.data)
-                console.log(response.data)
-            })
-            setLocation("");
-        }
+    function getWeather(weatherAPI) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            weatherAPI({ lat: position.coords.latitude, long: position.coords.longitude })
+        });
     }
 
-    // const saveLocalWeather = () => {
-    //     localStorage.setItem('weather', JSON.stringify(data));
-    // };
-
-    // useEffect(() => {
-    //     saveLocalWeather();
-    // }, [data]);
-
     return (
-        <Text >
-            <Col span={30}>
-                <Input
-                    value={location}
-                    onChange={event => setLocation(event.target.value)}
-                    onKeyPress={searchLocation}
-                    placeholder='Enter Location'
-                    type="text" />
-            </Col>
-            <Text >
-                <Text >
-                    <Text >
-                        <Title level={3}>{data.name}</Title>
-                    </Text>
-                    <Text >
-                        {data.main ? <Title level={2}>{data.main.temp.toFixed()}°F</Title> : null}
-                    </Text>
-                    <Text className="description">
-                        {data.weather ? <Paragraph>{data.weather[0].main}</Paragraph> : null}
-                    </Text>
-                </Text>
-
-                {data.name !== undefined &&
-                    <Row>
-                        <Text >
-                            <Text >
-                                <Paragraph>Feels Like</Paragraph>
-                                {data.main ? <Paragraph >{data.main.feels_like.toFixed()}°F</Paragraph> : null}
-                            </Text>
-                            <Text >
-                                <Paragraph>Humidity</Paragraph>
-                                {data.main ? <Paragraph >{data.main.humidity}%</Paragraph> : null}
-                            </Text>
-                            <Text >
-                                <Paragraph>Wind Speed</Paragraph>
-                                {data.wind ? <Paragraph>{data.wind.speed.toFixed()} MPH</Paragraph> : null}
-                            </Text>
-                        </Text>
-                    </Row>
-                }
-            </Text>
-        </Text>
-    );
+        <>
+            {weather && (
+                <Row justify='end'>
+                    <Col>
+                        <Row>
+                            <Typography.Title level={3} type="secondary"><HomeFilled />   {weather.name}</Typography.Title>
+                        </Row>
+                        <Row>
+                            <Typography.Title level={4} type="secondary">{weather.main.temp}° Celcius</Typography.Title>
+                        </Row>
+                        <Row>
+                            <Typography.Title level={4} type="secondary">Feels Like: {weather.main.feels_like}°</Typography.Title>
+                        </Row>
+                        <Row>
+                            <Typography.Title level={4} type="secondary">Humidity: {weather.main.humidity}%</Typography.Title>
+                        </Row>
+                        <Row>
+                            <Typography.Title level={3} type="secondary">
+                                <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`} />
+                                {weather.weather[0].main}
+                            </Typography.Title>
+                        </Row>
+                    </Col>
+                </Row>
+            )}
+        </>
+    )
 }
 
 export default Weather;
