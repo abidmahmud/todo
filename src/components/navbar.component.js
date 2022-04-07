@@ -58,7 +58,7 @@ function NavBar() {
                     <Link to="/">Todo</Link>
                 </Menu.Item>
                 <Menu.Item key='id2' icon={<PieChartOutlined />}>
-                    <Link to="/src/components/charts/chart.js">Charts</Link>
+                    <Link to="/charts">Charts</Link>
                 </Menu.Item>
 
                 <Menu.Item key='id3' style={{ justifyContent: "end" }}>
