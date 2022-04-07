@@ -36,7 +36,7 @@ const Weather = () => {
                             <Typography.Title level={3} type="secondary"><HomeFilled />   {weather.name}</Typography.Title>
                         </Row>
                         <Row>
-                            <Typography.Title level={4} type="secondary">{weather.main.temp}° Celcius</Typography.Title>
+                            <Typography.Title level={4} type="secondary">Current:  {weather.main.temp}° </Typography.Title>
                         </Row>
                         <Row>
                             <Typography.Title level={4} type="secondary">Feels Like: {weather.main.feels_like}°</Typography.Title>

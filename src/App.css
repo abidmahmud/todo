@@ -158,3 +158,6 @@ select {
     cursor: pointer;
     pointer-events: none;
 }
+ * {
+    font-family: 'Oswald', sans-serif;
+ }

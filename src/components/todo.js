@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import { Button, Modal, List, Row, Layout, Space, DatePicker, Typography, Checkbox, Switch } from "antd";
 import { CheckCircleOutlined, DeleteOutlined, ExclamationCircleOutlined, DeleteTwoTone, EditOutlined } from '@ant-design/icons';
+import { Link } from "react-router-dom";
 
 const Todo = ({ text, todo, todos, setTodos, date }) => {
     const now = new Date();
@@ -76,7 +77,9 @@ const Todo = ({ text, todo, todos, setTodos, date }) => {
 
             <Row className="todo">
                 <Switch span={15} checked={todo.completed} onChange={(() => handleComplete(todo.id))} />
-                <Typography.Text className={` ${todo.completed ? "completed" : ""}`} > {text}</Typography.Text>
+                <Typography.Text className={` ${todo.completed ? "completed" : ""}`} >
+                    <Link style={{ color: "currentcolor" }} to={`/todo/${todo.id}`}>{text}</Link>
+                </Typography.Text>
 
                 <List className="date">{dateString}</List>
 

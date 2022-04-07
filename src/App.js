@@ -82,8 +82,6 @@ function App() {
                     setTodos={setTodos}
                     filteredTodos={filteredTodos}
                 />
-
-
             </div>
 
         </>
