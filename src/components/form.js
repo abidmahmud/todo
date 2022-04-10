@@ -4,6 +4,7 @@ import 'antd/dist/antd.css';
 import { PlusSquareOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { DownOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import dayjs from "dayjs";
 
 const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDate }) => {
 
@@ -23,7 +24,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
         e.preventDefault();
         setTodos([
             ...todos,
-            { text: inputText, completed: false, startTime: moment(), id: Math.random() * 1000 },
+            { text: inputText, completed: false, id: Math.random() * 1000, start: dayjs().format('DD MMMM') },
         ]);
         setInputText("");
         setDate(null);
@@ -44,14 +45,14 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
     }
 
     const menu = (
-        <Menu>
-            <Menu.Item key="All">
+        <Menu name="todos">
+            <Menu.Item key={1} value="all">
                 All
             </Menu.Item>
-            <Menu.Item key="Completed">
+            <Menu.Item key={2} value="Completed">
                 Completed
             </Menu.Item>
-            <Menu.Item key="Uncompleted" >
+            <Menu.Item key={3} value="Uncompleted" >
                 Uncompleted
             </Menu.Item>
         </Menu>
@@ -60,6 +61,7 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
     return (
         <>
             <form>
+
                 <Input
                     type="text"
                     size="large"
@@ -67,7 +69,10 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                     placeholder="Write your todo..."
                     value={inputText}
                     onChange={handleText}
+
                 />
+
+
 
                 <Row gutter={1}>
                     <Button
@@ -75,11 +80,13 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                         type="primary"
                         className="todo-button"
                         onClick={handleSubmit}
+
                     >
                         Add Todo
                         {/* <PlusSquareOutlined /> */}
                     </Button>
                 </Row>
+
                 {/* <Col className="select" onChange={hanldeStatus}>
                     <select className="filter-todo" name="todos">
                         <option value="all">All</option>
@@ -87,8 +94,9 @@ const Form = ({ inputText, setInputText, todos, setTodos, setStatus, date, setDa
                         <option value="uncompleted">Uncompleted</option>
                     </select>
                 </Col> */}
+
                 <Dropdown overlay={menu} >
-                    <a className="ant-dropdown-link" onClick={e => e.preventDefault()} onChange={hanldeStatus} style={{ marginRight: "1rem" }}>
+                    <a className="ant-dropdown-link" onChange={hanldeStatus} style={{ marginRight: "1rem" }}>
                         Hover me <DownOutlined />
                     </a>
                 </Dropdown>

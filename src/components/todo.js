@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment";
 import { Button, Modal, List, Row, Layout, Space, DatePicker, Typography, Checkbox, Switch } from "antd";
 import { CheckCircleOutlined, DeleteOutlined, ExclamationCircleOutlined, DeleteTwoTone, EditOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import moment from "moment"
 
 const Todo = ({ text, todo, todos, setTodos, date }) => {
-    const now = new Date();
-    const dateString = moment(now).format("DD-MM-YYYY");
+    const dateString = dayjs().format('DD MMMM');
+    const end = dayjs();
 
     const { Header, Footer, Sider, Content } = Layout;
 
@@ -59,86 +60,80 @@ const Todo = ({ text, todo, todos, setTodos, date }) => {
 
     };
 
-    const handleComplete = () => {
-        setTodos(
-            todos.map((item) => {
-                if (item.id === todo.id) {
-                    return { ...item, completed: !item.completed };
+    const handleComplete = (id, end) => {
+        const allTodos = [...todos];
+        allTodos.forEach((item, index, list) => {
+            if (item.id === todo.id) {
+                if (item.completed) {
+                    item.completed = false;
+                } else {
+                    item.completed = true;
+                    item.end = end;
+                    const duration = moment
+                        .duration(end.diff(item.start))
+                        .asHours();
+                    item.duration = duration;
                 }
-                return item;
-            })
-        );
+                list[index] = item;
+            }
+        })
+        setTodos(allTodos);
     };
 
-
+    const handleDone = id => {
+        confirm({
+            title: 'Select your finish time',
+            icon: <ExclamationCircleOutlined />,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                handleComplete(id, end);
+            },
+            onCancel() { },
+            content: (
+                <DatePicker
+                    format="ddd, MMMM Do , h:mm:ss a"
+                    showTime={{ defaultValue: dayjs() }}
+                    defaultValue={end}
+                    onChange={(dateString) => (end = dateString)}
+                />
+            ),
+        });
+    }
 
     return (
         <>
+            {
+                !todo.completed ?
+                    <Row className="todo">
+                        <Switch span={15} checked={todo.completed} onChange={(() => handleDone(todo.id))} />
+                        <Typography.Text className={` ${todo.completed ? "completed" : ""}`} >
+                            <Link style={{ color: "currentcolor" }} to={`/todo/${todo.id}`}>{text}</Link>
+                        </Typography.Text>
 
-            <Row className="todo">
-                <Switch span={15} checked={todo.completed} onChange={(() => handleComplete(todo.id))} />
-                <Typography.Text className={` ${todo.completed ? "completed" : ""}`} >
-                    <Link style={{ color: "currentcolor" }} to={`/todo/${todo.id}`}>{text}</Link>
-                </Typography.Text>
+                        <List className="date">{dateString}</List>
 
-                <List className="date">{dateString}</List>
+                        <Button type="danger" onClick={showDeleteConfirm}>
+                            <DeleteOutlined />
+                        </Button>
+                    </Row> : null
+            }
+            {
+                todo.completed ?
+                    <Row className="todo">
+                        <Switch span={15} checked={todo.completed} onChange={handleComplete} />
+                        <Typography.Text className={` ${todo.completed ? "completed" : ""}`} >
+                            <Link style={{ color: "currentcolor" }} to={`/todo/${todo.id}`}>{text}</Link>
+                        </Typography.Text>
 
-                <Button type="danger" onClick={showDeleteConfirm}>
-                    <DeleteOutlined />
-                </Button>
-            </Row>
-            {/* <Row>
-                <List
-                    dataSource={todos}
-                    renderItem={
-                        item => (
-                            item.completed ?
-                                <List.Item>
-                                    <Row>
-                                        <Space>
-                                            <Switch checked={item.completed} onChange={(() => handleComplete(item.id))} />
-                                            <Typography.Text className={` ${item.completed ? "completed" : ""}`} > {text}</Typography.Text>
-                                            <Typography.Text className="date">{dateString}</Typography.Text>
+                        <List className="date">{dateString}</List>
 
-                                            <Button type="danger" onClick={showDeleteConfirm}>
-                                                <DeleteOutlined />
-                                            </Button>
-                                        </Space>
-                                    </Row>
-                                </List.Item> :
-                                <List.Item>
-                                    <Switch checked={item.completed} onChange={(() => handleComplete(item.id))} />
-                                    <Typography.Text  > {text}</Typography.Text>
-                                    <Typography.Text className="date">{dateString}</Typography.Text>
-                                    <Button type="danger" onClick={showDeleteConfirm}>
-                                        <DeleteOutlined />
-                                    </Button>
-                                </List.Item>
-                        )
-                    }
-                />
-            </Row>
-            <Row>
-
-            </Row> */}
-            {/* <List
-                dataSource={todos}
-                renderItem={
-                    item => (
-                        item.completed ?
-                            <List.Item>
-                                <Typography.Text className={`todo-item ${item.completed ? "completed" : ""}`} > {text}</Typography.Text>
-                                <Typography.Text className="date">{dateString}</Typography.Text>
-                                <Button gutter={10} type="success" className="complete-btn" onClick={handleComplete}>
-                                    <CheckCircleOutlined />
-                                </Button>
-                                <Button type="danger" onClick={showDeleteConfirm}>
-                                    <DeleteOutlined />
-                                </Button>
-                            </List.Item> : null
-                    )
-                }
-            /> */}
+                        <Button type="danger" onClick={showDeleteConfirm}>
+                            <DeleteOutlined />
+                        </Button>
+                    </Row> : null
+            }
         </>
     );
 };

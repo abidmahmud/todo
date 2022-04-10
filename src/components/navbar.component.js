@@ -15,15 +15,15 @@ const { SubMenu } = Menu;
 
 function NavBar() {
 
-    useEffect(() => {
-        const time = new Date().getHours()
-        const day = time > 6 && time < 18
-        if (day) {
-            import('antd/dist/antd.css')
-        } else {
-            import('antd/dist/antd.dark.css')
-        }
-    }, [])
+    // useEffect(() => {
+    //     const time = new Date().getHours()
+    //     const day = time > 6 && time < 18
+    //     if (day) {
+    //         import('antd/dist/antd.css')
+    //     } else {
+    //         import('antd/dist/antd.dark.css')
+    //     }
+    // }, [])
 
     const [darkMode, setDarkMode] = useState(false);
 

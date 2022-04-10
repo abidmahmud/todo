@@ -11,7 +11,7 @@ const RoutesAll = () => {
             <NavBar />
             <Routes>
                 <Route path="/" element={<App />} />
-                <Route path="/src/components/charts/chart.js" element={<Chart />} />
+                <Route path="/charts" element={<Chart />} />
                 <Route path="todo/:id" element={<TodoNote />} />
             </Routes>
         </>

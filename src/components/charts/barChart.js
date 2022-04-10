@@ -1,109 +1,97 @@
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
-import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { useLayoutEffect } from "react";
+import getLocalTodos from '../getLocalTodos';
+
+
 
 const BarChart = () => {
 
     useLayoutEffect(() => {
-        /* Chart code */
-        // Create root element
-        // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+
         let root = am5.Root.new("barchartdiv");
 
-
-        // Set themes
-        // https://www.amcharts.com/docs/v5/concepts/themes/
         root.setThemes([
             am5themes_Animated.new(root)
         ]);
 
-
-        // Create chart
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/
-        let chart = root.container.children.push(am5xy.XYChart.new(root, {
-            panX: false,
-            panY: false,
-            wheelX: "panX",
-            wheelY: "zoomX",
-            layout: root.verticalLayout
-        }));
+        let chart = root.container.children.push(
+            am5xy.XYChart.new(root, {
+                panX: false,
+                panY: false,
+                wheelX: "panY",
+                wheelY: "zoomY",
+                layout: root.verticalLayout
+            })
+        );
 
         // Add scrollbar
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-        chart.set("scrollbarX", am5.Scrollbar.new(root, {
-            orientation: "horizontal"
+        chart.set("scrollbarY", am5.Scrollbar.new(root, {
+            orientation: "vertical"
         }));
 
-        let data = [{
-            "year": "2021",
-            "europe": 2.5,
-            "namerica": 2.5,
-            "asia": 2.1,
-            "lamerica": 1,
-            "meast": 0.8,
-            "africa": 0.4
-        }, {
-            "year": "2022",
-            "europe": 2.6,
-            "namerica": 2.7,
-            "asia": 2.2,
-            "lamerica": 0.5,
-            "meast": 0.4,
-            "africa": 0.3
-        }, {
-            "year": "2023",
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.9,
-            "africa": 0.5
-        }]
+        // Define data
+        const todos = getLocalTodos();
+        const completedTodos = todos.filter((todo) => todo.completed);
 
+        const data = completedTodos.map((todo) => {
+            return { task: todo.text, duration: todo.duration }
+        });
 
-        // Create axes
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-        let xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-            categoryField: "year",
-            renderer: am5xy.AxisRendererX.new(root, {}),
-            tooltip: am5.Tooltip.new(root, {})
-        }));
+        completedTodos.forEach(todo => {
+            let title = todo.text;
+            let duration = todo.duration;
+            console.log(duration);
+            data[title] = parseFloat(duration.toFixed(2));
+        });
+        const newData = []
+        newData.push(data)
+        console.log(newData);
 
-        xAxis.data.setAll(data);
+        // Create Y-axis
+        let yAxis = chart.yAxes.push(
+            am5xy.CategoryAxis.new(root, {
+                categoryField: "year",
+                renderer: am5xy.AxisRendererY.new(root, {}),
+                tooltip: am5.Tooltip.new(root, {})
+            })
+        );
+        yAxis.data.setAll(newData);
 
-        let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-            min: 0,
-            renderer: am5xy.AxisRendererY.new(root, {})
-        }));
-
+        // Create X-Axis
+        let xAxis = chart.xAxes.push(
+            am5xy.ValueAxis.new(root, {
+                min: 0,
+                renderer: am5xy.AxisRendererX.new(root, {})
+            })
+        );
 
         // Add legend
-        // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
-        let legend = chart.children.push(am5.Legend.new(root, {
+        var legend = chart.children.push(am5.Legend.new(root, {
             centerX: am5.p50,
             x: am5.p50
         }));
 
-
+        // Create series
         // Add series
         // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
         function makeSeries(name, fieldName) {
-            let series = chart.series.push(am5xy.ColumnSeries.new(root, {
+            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
                 name: name,
                 stacked: true,
                 xAxis: xAxis,
                 yAxis: yAxis,
-                valueYField: fieldName,
-                categoryXField: "year"
+                baseAxis: yAxis,
+                valueXField: fieldName,
+                categoryYField: "year"
             }));
 
             series.columns.template.setAll({
-                tooltipText: "{name}, {categoryX}: {valueY}",
-                tooltipY: am5.percent(10)
+                tooltipText: "{name}, {categoryY}: {valueX}",
+                tooltipY: am5.percent(90)
             });
-            series.data.setAll(data);
+            series.data.setAll(newData);
 
             // Make stuff animate on load
             // https://www.amcharts.com/docs/v5/concepts/animations/
@@ -112,7 +100,7 @@ const BarChart = () => {
             series.bullets.push(function () {
                 return am5.Bullet.new(root, {
                     sprite: am5.Label.new(root, {
-                        text: "{valueY}",
+                        text: "{valueX}",
                         fill: root.interfaceColors.get("alternativeText"),
                         centerY: am5.p50,
                         centerX: am5.p50,
@@ -124,17 +112,13 @@ const BarChart = () => {
             legend.data.push(series);
         }
 
-        makeSeries("Europe", "europe");
-        makeSeries("North America", "namerica");
-        makeSeries("Asia", "asia");
-        makeSeries("Latin America", "lamerica");
-        makeSeries("Middle East", "meast");
-        makeSeries("Africa", "africa");
-
-
-        // Make stuff animate on load
-        // https://www.amcharts.com/docs/v5/concepts/animations/
+        completedTodos.forEach(todo => {
+            makeSeries(todo.text, todo.text)
+        });
         chart.appear(1000, 100);
+
+        // Add cursor
+        chart.set("cursor", am5xy.XYCursor.new(root, {}));
 
         return () => {
             root.dispose();
@@ -147,4 +131,4 @@ const BarChart = () => {
     )
 }
 
-export default BarChart;
+export default BarChart

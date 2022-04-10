@@ -5,6 +5,7 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { Link } from 'react-router-dom';
+import getLocalTodos from '../getLocalTodos';
 
 const Pie = () => {
 
@@ -23,8 +24,8 @@ const Pie = () => {
         // Create series
         // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
         const series = chart.series.push(am5percent.PieSeries.new(root, {
-            valueField: "value",
-            categoryField: "category"
+            valueField: "duration",
+            categoryField: "todos"
         }));
 
         series.states.create("hidden", {
@@ -33,28 +34,15 @@ const Pie = () => {
 
         // Set data
         // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
-        series.data.setAll([{
-            category: "Lithuania",
-            value: 501.9
-        }, {
-            category: "Czechia",
-            value: 301.9
-        }, {
-            category: "Ireland",
-            value: 201.1
-        }, {
-            category: "Germany",
-            value: 165.8
-        }, {
-            category: "Australia",
-            value: 139.9
-        }, {
-            category: "Austria",
-            value: 128.3
-        }, {
-            category: "UK",
-            value: 99
-        }]);
+
+        const todos = getLocalTodos();
+        const completedTodos = todos.filter((todo) => todo.completed);
+
+        const data = completedTodos.map((todo) => {
+            return { todos: todo.text, duration: todo.duration }
+        });
+
+        series.data.setAll(data)
 
         series.appear(1000, 100);
 

@@ -141,7 +141,7 @@ select {
 }
 
 select {
-    color: #ff6f47;
+    color: black;
     font-family: "Poppins", sans-serif;
     cursor: pointer;
     width: 12rem;
@@ -154,7 +154,7 @@ select {
     top: 0;
     right: 0;
     padding: 1rem;
-    background: #ff6f47;
+    background: #000000;
     cursor: pointer;
     pointer-events: none;
 }

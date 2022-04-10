@@ -2,6 +2,7 @@ import React, { useState, useRef, useLayoutEffect } from 'react'
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import getLocalTodos from '../getLocalTodos';
 
 const ColumnChart = () => {
 
@@ -46,7 +47,7 @@ const ColumnChart = () => {
         let xAxis = chart.xAxes.push(
             am5xy.CategoryAxis.new(root, {
                 maxDeviation: 0.3,
-                categoryField: "country",
+                categoryField: "todos",
                 renderer: xRenderer,
                 tooltip: am5.Tooltip.new(root, {})
             })
@@ -59,9 +60,9 @@ const ColumnChart = () => {
             name: "Series 1",
             xAxis: xAxis,
             yAxis: yAxis,
-            valueYField: "value",
+            valueYField: "duration",
             sequencedInterpolation: true,
-            categoryXField: "country",
+            categoryXField: "todos",
             tooltip: am5.Tooltip.new(root, {
                 labelText: "{valueY}"
             })
@@ -77,43 +78,12 @@ const ColumnChart = () => {
         });
 
         // Define data
-        var data = [{
-            country: "USA",
-            value: 2025
-        }, {
-            country: "China",
-            value: 1882
-        }, {
-            country: "Japan",
-            value: 1809
-        }, {
-            country: "Germany",
-            value: 1322
-        }, {
-            country: "UK",
-            value: 1122
-        }, {
-            country: "France",
-            value: 1114
-        }, {
-            country: "India",
-            value: 984
-        }, {
-            country: "Spain",
-            value: 711
-        }, {
-            country: "Netherlands",
-            value: 665
-        }, {
-            country: "Russia",
-            value: 580
-        }, {
-            country: "South Korea",
-            value: 443
-        }, {
-            country: "Canada",
-            value: 441
-        }];
+        const todos = getLocalTodos();
+        const completedTodos = todos.filter((todo) => todo.completed);
+
+        const data = completedTodos.map((todo) => {
+            return { todos: todo.text, duration: todo.duration }
+        });
 
         xAxis.data.setAll(data);
         series.data.setAll(data);
