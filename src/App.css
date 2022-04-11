@@ -15,7 +15,7 @@ header {
     font-size: 2rem;
 }
 
-header,
+
 form {
     min-height: 20vh;
     display: flex;
@@ -23,36 +23,26 @@ form {
     align-items: center;
 }
 
-form input,
-form button {
-    padding: 00px;
-    font-size: 2rem;
-    margin-right: 0.5rem;
-    padding-right: 1 rem;
-    border: none;
-    /* background: white; */
-    color: black;
-    background-color: cadetblue;
-}
 
-.badge {
+
+/* .badge {
     padding: 0.5rem;
     font-size: 2rem;
     border: none;
     background: rgb(42, 42, 32);
-}
+} */
 
-form button {
+/* form button {
     color: #ff6f47;
     background: #f7fffe;
     cursor: pointer;
     transition: all 0.3s ease;
-}
+} */
 
-form button:hover {
+/* form button:hover {
     background: #ff6f47;
     color: white;
-}
+} */
 
 .todo-container {
     display: flex;
