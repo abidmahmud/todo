@@ -31,15 +31,15 @@ const themeTexts = {
 
 function NavBar() {
     const [theme, setTheme] = useState('light');
-    // useEffect(() => {
-    //     const time = new Date().getHours()
-    //     const day = time > 6 && time < 18
-    //     if (day) {
-    //         import('antd/dist/antd.css')
-    //     } else {
-    //         import('antd/dist/antd.dark.css')
-    //     }
-    // }, [])
+    useEffect(() => {
+        const time = new Date().getHours()
+        const day = time > 6 && time < 18
+        if (day) {
+            import('antd/dist/antd.css')
+        } else {
+            import('antd/dist/antd.dark.css')
+        }
+    }, [])
 
     useEffect(() => {
         if (theme === 'light') {
@@ -96,7 +96,7 @@ function NavBar() {
 
                 <Menu.Item key='id3' style={{ justifyContent: "end" }}>
                     {/* <Button onClick={changeTheme}>{themeTexts[theme].buttonText}</Button> */}
-                    <Switch onChange={toggle} />
+                    {/* <Switch onChange={toggle} /> */}
                 </Menu.Item>
 
             </Menu>

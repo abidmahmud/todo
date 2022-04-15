@@ -86,21 +86,21 @@ const InputForm = ({ inputText, setInputText, todos, setTodos, setStatus, date, 
                     </Row>
                 </Form.Item>
 
-                <Form.Item   >
+                {/* <Form.Item   >
                     <Select name="todos" placeholder="Todos" onChange={hanldeStatus}>
                         <Select.Option value="all">All</Select.Option>
                         <Select.Option value="completed">Completed</Select.Option>
                         <Select.Option value="uncompleted">Uncompleted</Select.Option>
                     </Select>
-                </Form.Item>
+                </Form.Item> */}
 
-                {/* <Col className="select" onChange={hanldeStatus}>
+                <Col className="select" onChange={hanldeStatus}>
                     <select className="filter-todo" name="todos">
                         <option value="all">All</option>
                         <option value="completed">Completed</option>
                         <option value="uncompleted">Uncompleted</option>
                     </select>
-                </Col> */}
+                </Col>
                 <Form.Item>
                     <Col className="badge">
                         You have

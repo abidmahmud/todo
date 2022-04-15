@@ -127,27 +127,30 @@ select {
 .select {
     margin: 1rem;
     position: relative;
+    padding-bottom: 1.5rem;
     overflow: hidden;
+    border-color: black;
 }
 
 select {
-    color: black;
-    font-family: "Poppins", sans-serif;
+    color: currentColor;
+    font-family: "Oswald", sans-serif;
     cursor: pointer;
     width: 12rem;
 }
 
 /* Arrow */
-.select::after {
+/* .select::after {
     content: "\25BC";
     position: absolute;
     top: 0;
     right: 0;
     padding: 1rem;
-    background: #000000;
+    background: currentColor;
     cursor: pointer;
     pointer-events: none;
-}
+    color: currentColor;
+} */
  * {
     font-family: 'Oswald', sans-serif;
  }
