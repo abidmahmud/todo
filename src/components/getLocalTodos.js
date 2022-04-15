@@ -1,6 +1,6 @@
 const getLocalTodos = () => {
 
-    const todos = JSON.parse(localStorage.getItem('todos'));
+    const todos = JSON.parse(window.localStorage.getItem('todos'));
     return todos;
 
 }

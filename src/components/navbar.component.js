@@ -9,7 +9,7 @@ import {
     PieChartOutlined
 } from '@ant-design/icons';
 import { useState, useEffect } from "react";
-import { useTheme } from "./DarkMode/use-theme";
+import { useTheme } from "./themes/use-theme";
 import './DarkMode/theme.dark.less';
 import './DarkMode/theme.light.less';
 
@@ -55,14 +55,16 @@ function NavBar() {
         setTheme(theme === 'light' ? 'dark' : 'light');
     }
 
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode, setDarkMode] = useState(true);
 
     const toggle = () => {
-        if (!darkMode) {
+        if (!theme) {
             import('antd/dist/antd.dark.css')
+            setDarkMode(theme)
         }
         else {
             import('antd/dist/antd.css')
+            setDarkMode(theme)
         }
     }
 
@@ -73,6 +75,7 @@ function NavBar() {
     // const changeTheme = value => {
     //     setTheme(value ? 'dark' : 'light');
     // };
+    // const [darkMode, setDarkMode] = useTheme();
 
     return (
         <>
@@ -92,7 +95,8 @@ function NavBar() {
                 </Menu.Item>
 
                 <Menu.Item key='id3' style={{ justifyContent: "end" }}>
-                    <Button onClick={changeTheme}>{themeTexts[theme].buttonText}</Button>
+                    {/* <Button onClick={changeTheme}>{themeTexts[theme].buttonText}</Button> */}
+                    <Switch onChange={toggle} />
                 </Menu.Item>
 
             </Menu>

@@ -5,6 +5,8 @@ import './App.css';
 import { Layout, Col, Row, Typography } from 'antd';
 import Weather from './components/weatherApi';
 import DarkMode from './components/DarkMode/darkMode';
+import getLocalTodos from './components/getLocalTodos';
+import saveLocalTodos from './components/SaveLocalTodos';
 
 function App() {
 
@@ -14,6 +16,7 @@ function App() {
     const [filteredTodos, setFilteredTodos] = useState([]);
     const [date, setDate] = useState([]);
     const [theme, setTheme] = useState("light");
+
 
     const { Header, Footer, Sider, Content } = Layout;
 
@@ -31,26 +34,31 @@ function App() {
         }
     };
 
-    const saveLocalTodos = () => {
-        localStorage.setItem('todos', JSON.stringify(todos))
-    };
+    // const saveLocalTodos = () => {
+    //     localStorage.setItem('todos', JSON.stringify(todos))
+    // };
 
-    const getLocalTodos = () => {
-        if (localStorage.getItem('todos') === null) {
-            localStorage.setItem('todos', JSON.stringify([]));
-        } else {
-            let todoLocal = JSON.parse(localStorage.getItem('todos'));
-            setTodos(todoLocal);
-        }
-    }
+    // const getLocalTodos = () => {
+    //     if (localStorage.getItem('todos') === null) {
+    //         localStorage.setItem('todos', JSON.stringify([]));
+    //     } else {
+    //         let todoLocal = JSON.parse(localStorage.getItem('todos'));
+    //         setTodos(todoLocal);
+    //     }
+    // }
 
     useEffect(() => {
-        getLocalTodos();
+        let todoLocal = getLocalTodos();
+        if (todoLocal && todoLocal.length) {
+            setTodos(todoLocal);
+        }
     }, [])
 
     useEffect(() => {
         handleFilter();
-        saveLocalTodos();
+        if (todos.length > 0) {
+            saveLocalTodos(todos);
+        }
     }, [todos, status]);
 
     return (

@@ -1,12 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, List, Row, Layout, Space, DatePicker, Typography, Checkbox, Switch } from "antd";
-import { CheckCircleOutlined, DeleteOutlined, ExclamationCircleOutlined, DeleteTwoTone, EditOutlined } from '@ant-design/icons';
+import {
+    Button,
+    Modal,
+    List,
+    Row,
+    Layout,
+    Space,
+    DatePicker,
+    Typography,
+    Checkbox,
+    Switch,
+} from "antd";
+import {
+    CloseOutlined,
+    CheckOutlined,
+    CheckCircleOutlined,
+    DeleteOutlined,
+    ExclamationCircleOutlined,
+    DeleteTwoTone,
+    EditOutlined,
+} from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import moment from "moment"
+import moment from "moment";
 
 const Todo = ({ text, todo, todos, setTodos, date }) => {
-    const dateString = dayjs().format('DD MMMM');
+    const dateString = dayjs().format("DD MMMM");
     const end = dayjs();
 
     const { Header, Footer, Sider, Content } = Layout;
@@ -17,34 +36,33 @@ const Todo = ({ text, todo, todos, setTodos, date }) => {
 
     const { confirm } = Modal;
 
-
-    const showDeleteConfirm = id => {
+    const showDeleteConfirm = (id) => {
         confirm({
-            title: 'Are you sure delete this todo?',
+            title: "Are you sure delete this todo?",
             icon: <ExclamationCircleOutlined />,
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
+            okText: "Yes",
+            okType: "danger",
+            cancelText: "No",
             onOk() {
                 hanldeDelete(id);
             },
             onCancel() { },
         });
-    }
+    };
 
-    const showNote = id => {
+    const showNote = (id) => {
         confirm({
-            title: 'Write a note',
+            title: "Write a note",
             icon: <ExclamationCircleOutlined />,
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
+            okText: "Yes",
+            okType: "danger",
+            cancelText: "No",
             onOk() {
                 handleNote(id);
             },
             onCancel() { },
         });
-    }
+    };
 
     const [note, setNote] = useState("");
 
@@ -57,7 +75,6 @@ const Todo = ({ text, todo, todos, setTodos, date }) => {
                 return item;
             })
         );
-
     };
 
     const handleComplete = (id, end) => {
@@ -76,17 +93,17 @@ const Todo = ({ text, todo, todos, setTodos, date }) => {
                 }
                 list[index] = item;
             }
-        })
+        });
         setTodos(allTodos);
     };
 
-    const handleDone = id => {
+    const handleDone = (id) => {
         confirm({
-            title: 'Select your finish time',
+            title: "Select your finish time",
             icon: <ExclamationCircleOutlined />,
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
+            okText: "Yes",
+            okType: "danger",
+            cancelText: "No",
             onOk() {
                 handleComplete(id, end);
             },
@@ -100,40 +117,64 @@ const Todo = ({ text, todo, todos, setTodos, date }) => {
                 />
             ),
         });
-    }
+    };
 
     return (
         <>
-            {
-                !todo.completed ?
-                    <Row className="todo">
-                        <Switch span={15} checked={todo.completed} onChange={(() => handleDone(todo.id))} />
-                        <Typography.Text className={` ${todo.completed ? "completed" : ""}`} >
-                            <Link style={{ color: "currentcolor" }} to={`/todo/${todo.id}`}>{text}</Link>
-                        </Typography.Text>
+            {!todo.completed ? (
+                <Row className="todo">
+                    <Switch
+                        span={15}
+                        checkedChildren={<CheckOutlined />}
+                        unCheckedChildren={<CloseOutlined />}
+                        checked={todo.completed}
+                        onChange={() => handleDone(todo.id)}
+                    />
+                    <Typography.Text
+                        className={` ${todo.completed ? "completed" : ""}`}
+                    >
+                        <Link
+                            style={{ color: "currentcolor" }}
+                            to={`/todo/${todo.id}`}
+                        >
+                            {text}
+                        </Link>
+                    </Typography.Text>
 
-                        <List className="date">{dateString}</List>
+                    <List className="date">{dateString}</List>
 
-                        <Button type="danger" onClick={showDeleteConfirm}>
-                            <DeleteOutlined />
-                        </Button>
-                    </Row> : null
-            }
-            {
-                todo.completed ?
-                    <Row className="todo">
-                        <Switch span={15} checked={todo.completed} onChange={handleComplete} />
-                        <Typography.Text className={` ${todo.completed ? "completed" : ""}`} >
-                            <Link style={{ color: "currentcolor" }} to={`/todo/${todo.id}`}>{text}</Link>
-                        </Typography.Text>
+                    <Button type="danger" onClick={showDeleteConfirm}>
+                        <DeleteOutlined />
+                    </Button>
+                </Row>
+            ) : null}
+            {todo.completed ? (
+                <Row className="todo">
+                    <Switch
+                        span={15}
+                        checkedChildren={<CheckOutlined />}
+                        unCheckedChildren={<CloseOutlined />}
+                        checked={todo.completed}
+                        onChange={handleComplete}
+                    />
+                    <Typography.Text
+                        className={` ${todo.completed ? "completed" : ""}`}
+                    >
+                        <Link
+                            style={{ color: "currentcolor" }}
+                            to={`/todo/${todo.id}`}
+                        >
+                            {text}
+                        </Link>
+                    </Typography.Text>
 
-                        <List className="date">{dateString}</List>
+                    <List className="date">{dateString}</List>
 
-                        <Button type="danger" onClick={showDeleteConfirm}>
-                            <DeleteOutlined />
-                        </Button>
-                    </Row> : null
-            }
+                    <Button type="danger" onClick={showDeleteConfirm}>
+                        <DeleteOutlined />
+                    </Button>
+                </Row>
+            ) : null}
         </>
     );
 };

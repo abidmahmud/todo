@@ -44,22 +44,24 @@ const InputForm = ({ inputText, setInputText, todos, setTodos, setStatus, date, 
         </Menu>
     );
 
+    const [form] = Form.useForm();
+
+    const onFinish = () => {
+        form.resetFields();
+    };
+
     return (
         <>
 
 
 
-            <Form>
+            <Form
+                form={form}
+                onFinish={onFinish}
+            >
                 <Form.Item
-                    name="todo"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please enter your todo",
-                        },
-                        { whitespace: true },
-                        { min: 3 },
-                    ]}
+                    name={"todo"}
+                    rules={[{ required: true, message: 'This field is required' }]}
                 >
                     <Input
                         type="text"

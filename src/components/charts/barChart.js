@@ -35,9 +35,8 @@ const BarChart = () => {
         const todos = getLocalTodos();
         const completedTodos = todos.filter((todo) => todo.completed);
 
-        const data = completedTodos.map((todo) => {
-            return { task: todo.text, duration: todo.duration }
-        });
+        const data = {};
+        data.year = "todos9"
 
         completedTodos.forEach(todo => {
             let title = todo.text;

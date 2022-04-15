@@ -1,32 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Card, Space, Input, List, Tooltip, Button } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Card, Space, Input, List, Row, Button } from 'antd';
+import { CommentOutlined, LeftCircleFilled } from '@ant-design/icons';
 
+import Comment from './comment';
 import getLocalTodos from '../getLocalTodos';
 import saveLocalTodos from '../SaveLocalTodos';
+import moment from 'moment';
 
 const TodoDetails = () => {
     const [todo, setTodo] = useState({});
     const [comment, setComment] = useState('');
     const [changed, setChanged] = useState(false);
     const [note, setNote] = useState('');
+    const [test, setTest] = useState(false);
 
+    const navigate = useNavigate();
     const id = parseInt(useParams().id);
 
-    const handleNote = (e) => {
-        setNote(e.target.value);
-    };
-
-    const handleComment = (e) => {
-        setComment(e.target.value);
-    };
-
     const addComment = (e) => {
-        todo.comments
+        todo?.comments
             ? setTodo({ ...todo, comments: [...todo.comments, e.target.value] })
             : setTodo({ ...todo, comments: [e.target.value] });
         setComment('');
+        setChanged(true);
+    };
+
+    const updateNote = () => {
+        setTodo({ ...todo, note: note });
         setChanged(true);
     };
 
@@ -37,6 +38,15 @@ const TodoDetails = () => {
         setChanged(true);
     };
 
+    const handleNote = (e) => {
+        setNote(e.target.value);
+    };
+
+    const handleComment = (e) => {
+        setComment(e.target.value);
+    };
+
+
     useEffect(() => {
         if (changed) {
             const todos = getLocalTodos();
@@ -45,64 +55,64 @@ const TodoDetails = () => {
                     list[i] = todo;
                 }
             });
-            saveLocalTodos(todos);
+            saveLocalTodos(todos); // Update localstorage
         }
     }, [todo, changed, id]);
 
+
     useEffect(() => {
         const todos = getLocalTodos();
-        const todo = todos.find((todo) => todo.id === id);
-        setTodo(todo);
-    }, []);
+        console.log(todos);
+        if (todos) setTest(true);
+        const todo = todos?.find((item) => item.id === id);
+        if (todo?.note) {
+            setNote(todo.note);
+        }
+        setTodo(todo); // set current todo
+    }, [test]);
 
     return (
-        <Space
-            direction="horizontal"
-            style={{ width: '100%', justifyContent: 'center' }}
-        >
-            <Card bordered={false} style={{ width: '50vw' }}>
-
-
-                <Input.TextArea
-                    rows={6}
-                    showCount
-                    maxLength={100}
-                    placeholder="Write a note"
-                    value={note}
-                    onChange={handleNote}
-                />
-
-                <Input.TextArea
-                    placeholder="Comment"
-                    value={comment}
-                    onChange={handleComment}
-                />
-                <Button
-                    onClick={addComment}
-                >Add</Button>
-
-                {todo.comments && todo.comments.length ? (
-                    <List
-                        itemLayout="vertical"
-                        dataSource={todo.comments}
-                        renderItem={(item) => (
-                            <List.Item>
-                                <Space>
-                                    {comment}
-                                    <Tooltip title="Delete">
-                                        <Button
-                                            shape="default"
-                                            size="small"
-                                            onClick={() => onDeleteComment(comment)}
-                                        ><DeleteOutlined /></Button>
-                                    </Tooltip>
-                                </Space>
-                            </List.Item>
-                        )}
+        <Row>
+            <LeftCircleFilled style={{ fontSize: '30px', marginLeft: '20%', marginTop: '2%' }} onClick={() => navigate(-1)} />
+            <Space
+                direction="horizontal"
+                style={{ width: '100%', justifyContent: 'center' }}
+            >
+                <Card title={todo?.title} bordered={false} style={{ width: '50vw' }}>
+                    {todo?.duration ? <h4>Time taken: {moment.duration(todo?.duration, 'minutes').humanize()}</h4> : null}
+                    <Input.TextArea
+                        rows={6}
+                        showCount
+                        maxLength={150}
+                        placeholder="Todo Note"
+                        value={note}
+                        onPressEnter={updateNote}
+                        onChange={handleNote}
                     />
-                ) : null}
-            </Card>
-        </Space>
+
+                    <Input.TextArea
+                        placeholder="Comment"
+                        value={comment}
+                        onChange={handleComment}
+                        onPressEnter={addComment}
+                    />
+
+                    {todo?.comments && todo?.comments.length ? (
+                        <List
+                            itemLayout="vertical"
+                            dataSource={todo.comments}
+                            renderItem={(item) => (
+                                <List.Item>
+                                    <Comment comment={item} onDeleteComment={onDeleteComment} />
+                                </List.Item>
+                            )}
+                        />
+                    ) : null}
+                </Card>
+            </Space>
+            {/* <button onClick={() => history.goBack()}>Back</button>? */}
+
+        </Row>
     );
 };
 
